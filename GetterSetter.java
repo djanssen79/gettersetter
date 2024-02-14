@@ -10,7 +10,7 @@ public class GetterSetter extends JFrame implements ActionListener {
     private JButton jbGo;
 
     public GetterSetter() {
-        setTitle("Generate Getter & Setter");
+        setTitle("Generate Getter & Setter & UML");
         setSize(800, 600);
         setLocationRelativeTo(null);
         setResizable(true);
@@ -29,16 +29,18 @@ public class GetterSetter extends JFrame implements ActionListener {
         jtaMitte.setTabSize(2);
         jtaMitte.setFont(new Font("Courier", Font.PLAIN, 12));
         jtaMitte.setBackground(new Color(240,255,240));
+        jtaMitte.setEditable(false);
         inhalt.add(new JScrollPane(jtaMitte));
         
         jtaUnten = new JTextArea();
         jtaUnten.setTabSize(2);
         jtaUnten.setFont(new Font("Courier", Font.PLAIN, 12));
         jtaUnten.setBackground(new Color(240,240,255));
+        jtaMitte.setEditable(false);
         inhalt.add(new JScrollPane(jtaUnten));
 
         add(inhalt, BorderLayout.CENTER);
-        jbGo = new JButton("Generate Getter & Setter");
+        jbGo = new JButton("Generate Getter & Setter & UML");
         jbGo.addActionListener(this);
         add(jbGo, BorderLayout.SOUTH);
 
@@ -47,6 +49,7 @@ public class GetterSetter extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(jbGo)) {
             String[] attribs = jtaOben.getText().split("\n");
+            String jpUntenText = "";
             for (int i=0; i<attribs.length; i++) {                
                 String var = attribs[i];
                 if (var.length() > 0) {
@@ -65,13 +68,16 @@ public class GetterSetter extends JFrame implements ActionListener {
                         jtaMitte.append("public " + varTyp + " " + "gib" + pVarName + "() {\n\treturn " + varName + ";\n}\n\n");
                         jtaMitte.append("public void " +  "setze" + pVarName + "(" + varTyp + " p" + pVarName + ") {\n\t" + varName + " = p" + pVarName + ";\n}\n\n");                        
                         
+                        jtaUnten.append("- " + pVarName + " : " + varTyp + "\n");
+                        
                         //jtaUnten
-                        jtaUnten.append("+ gib" + pVarName + "() : " + varTyp + "\n\n");
-                        jtaUnten.append("+ setze" + pVarName + "(p" + pVarName + " : " + varTyp + ") : void \n\n");                        
+                        jpUntenText += "+ gib" + pVarName + "() : " + varTyp + "\n";
+                        jpUntenText += "+ setze" + pVarName + "(p" + pVarName + " : " + varTyp + ") : void \n";
                     }
                 }
             }
-                        
+            jtaUnten.append("\n");
+            jtaUnten.append(jpUntenText);
         }
     }
 
